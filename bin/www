@@ -4,6 +4,13 @@
  * Module dependencies.
  */
 
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config()
+}
+
+
 var app = require('../app');
 var debug = require('debug')('ignite-data-api:server');
 var http = require('http');
@@ -12,8 +19,8 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+var port = normalizePort(process.env.PORT || '3001')
+app.set('port', port)
 
 /**
  * Create HTTP server.
