@@ -1,6 +1,5 @@
 'use strict'
 let express = require('express')
-let logger = require('morgan')
 let cookieParser = require('cookie-parser')
 let bodyParser = require('body-parser')
 let errorResponse = require('./halSupport').ErrorResponse
@@ -10,12 +9,15 @@ let api = require('./routes/')
 let PATH = util.format('/%s/%s', config.api.basePATH, config.api.version)
 
 let app = express()
+app.disable('x-powered-by')
 
 // uncomment after placing your favicon in /public
-app.use(logger('dev'))
+let pino = require('pino')()
+app.use(require('express-pino-logger')({logger: pino}))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser())
+app.set('trust proxy', 1)
 
 app.use(PATH + '/', api)
 
