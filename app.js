@@ -6,7 +6,7 @@ let errorResponse = require('./halSupport').ErrorResponse
 let util = require('util')
 let config = require('./config')
 let api = require('./routes/')
-let PATH = util.format('/%s/%s', config.api.basePATH, config.api.version)
+let PATH = util.format('/%s/%s/', config.api.basePATH, config.api.version)
 
 let app = express()
 app.disable('x-powered-by')
@@ -19,13 +19,18 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser())
 app.set('trust proxy', 1)
 
-app.use(PATH + '/', (req, res, next) => {
+app.use(PATH, (req, res, next) => {
+
+  if (req._parsedUrl.path === PATH) {
+    return next()
+  }
 
   if (!req.query.limit || isNaN(req.query.limit) || parseInt(req.query.limit) <= 0) {
-    res.status(404).json(errorResponse('BAD REQUEST', 'Every call must contain limit=n query parameter and n must be a positive int greater then 0 and less then 1000'))
-    return
+    return res.status(404).json(errorResponse('BAD REQUEST', 'Every call must contain limit=n query parameter and n must be a positive int greater then 0 and less then 1000'))
+  } else {
+    return next()
   }
-  next()
+
 }, api)
 
 // catch 404 and forward to error handler
