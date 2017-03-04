@@ -19,7 +19,14 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser())
 app.set('trust proxy', 1)
 
-app.use(PATH + '/', api)
+app.use(PATH + '/', (req, res, next) => {
+
+  if (!req.query.limit || isNaN(req.query.limit) || parseInt(req.query.limit) <= 0) {
+    res.status(404).json(errorResponse('BAD REQUEST', 'Every call must contain limit=n query parameter and n must be a positive int greater then 0 and less then 1000'))
+    return
+  }
+  next()
+}, api)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
