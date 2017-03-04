@@ -2,7 +2,6 @@
 
 let path = require('path')
 let _ = require('lodash')
-let url = require('url')
 
 // All configurations will extend these options
 // ============================================
