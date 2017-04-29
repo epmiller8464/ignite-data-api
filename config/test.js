@@ -4,16 +4,17 @@
 module.exports = {
   // MongoDB connection options
   db: {
-    mongoDbUri: 'mongodb://localhost/igniteDB'
+    mongoDbUri: process.env.MONGODB_URI
   },
   api: {
     basePATH: 'api',
     version: 'v1'
   },
   fb: {
-    clientId: process.env.DEV_FB_CLIENTID,
-    clientSecret: process.env.DEV_FB_CLIENTSECRET,
-    app_id: '1542899349068580'
+    clientId: process.env.FB_CLIENTID,
+    clientSecret: process.env.FB_CLIENTSECRET,
+    app_id: '1526199594071889'
+
   }
 }
 

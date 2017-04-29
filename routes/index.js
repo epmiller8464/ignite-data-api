@@ -5,10 +5,12 @@ let router = express.Router()
 
 router.get('/', function (req, res, next) {
   res.status(200).json({
-    users: '/users',
-    bots: '/bots',
-    tokens: '/tokens',
-    blocks: '/blocks'
+    endpoints: {
+      users: '/users',
+      bots: '/bots',
+      tokens: '/tokens',
+      blocks: '/blocks'
+    }
   })
 })
 
