@@ -86,12 +86,12 @@ describe('Button Tests', () => {
 
   it('Element Validation Test', (done) => {
 
-    let bad = new Element({title: '', image_url: faker.internet.url(), subtitle: faker.lorem.paragraph()})
+    let bad = new Element({title: '', image_url: faker.internet.url(), subtitle: faker.lorem.paragraph()}, 'btn 1', 'btn 2', 'btn 3', 'btn 4')
     let good = new Element({
       title: faker.lorem.word(),
       image_url: faker.image.business(),
       subtitle: faker.lorem.word()
-    })
+    }, 'btn 1', 'btn 2', 'btn 3')
 
     let badResult = bad.isValid()
     should.exist(badResult)
@@ -102,7 +102,7 @@ describe('Button Tests', () => {
     should.exist(goodResults)
     should.not.exist(goodResults.errors)
     should.equal(goodResults.isValid, true)
-    // console.log(good.toObject())
+    console.log(good.toObject())
     done()
   })
 // it('UrlButton Validation Test', (done) => {
