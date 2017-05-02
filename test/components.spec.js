@@ -2,7 +2,7 @@
 const should = require('should')
 const {describe, it, before} = require('mocha')
 const {ButtonTypes, UrlButton, PostbackButton, Element, DefaultAction} = require('../lib/buttons')
-
+const {ComponentTypes, GetStarted, Greeting, CallToAction, PersistentMenu, GenericTemplate, ListTemplate, ButtonTemplate, TextComponent, AudioComponent, VideoComponent, ImageComponent, FileComponent} = require('../lib/component')
 const _ = require('lodash')
 const faker = require('faker')
 const chance = require('chance')
@@ -86,12 +86,19 @@ describe('Button Tests', () => {
 
   it('Element Validation Test', (done) => {
 
-    let bad = new Element({title: '', image_url: faker.internet.url(), subtitle: faker.lorem.paragraph()}, 'btn 1', 'btn 2', 'btn 3', 'btn 4')
+    let bad = new Element({
+      title: '',
+      image_url: faker.internet.url(),
+      subtitle: faker.lorem.paragraph()
+    }, 'btn 1', 'btn 2', 'btn 3', 'btn 4')
+
     let good = new Element({
       title: faker.lorem.word(),
       image_url: faker.image.business(),
       subtitle: faker.lorem.word()
-    }, 'btn 1', 'btn 2', 'btn 3')
+    }, new PostbackButton({
+      title: 'Url'
+    }, faker.random.uuid(), faker.random.uuid()), new UrlButton({title: 'View Me', url: 'https://google.com'}))
 
     let badResult = bad.isValid()
     should.exist(badResult)
@@ -116,4 +123,28 @@ describe('Button Tests', () => {
 //   let good = new PostbackButton({title: 'WebUrl', url: 'https://google.com', subtitle: ''}, 1, 23, 3)
 //   done()
 // })
+})
+
+describe('Compoenent Tests', () => {
+  it('GenericTemplate Component Test', (done) => {
+
+    let element = new Element({
+      title: faker.lorem.word(),
+      image_url: faker.image.business(),
+      subtitle: faker.lorem.word()
+    })
+    element.addButton(new UrlButton({
+      title: '',
+      url: 'http://google.com'
+    }))
+
+    // let goodResults = element.isValid()
+
+    let genericTemplate = new GenericTemplate({})
+
+    genericTemplate.addElement(element)
+
+    done()
+  })
+
 })
