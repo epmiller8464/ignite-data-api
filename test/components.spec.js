@@ -112,20 +112,10 @@ describe('Button Tests', () => {
     console.log(good.toObject())
     done()
   })
-// it('UrlButton Validation Test', (done) => {
-//   let bad = new UrlButton({title: 'WebUrl', url: 'https://google.com', subtitle: ''}, 1, 23, 3)
-//   let good = new UrlButton({title: 'WebUrl', url: 'https://google.com', subtitle: ''}, 1, 23, 3)
-//   done()
-// })
-//
-// it('PostbackButton Validation Test', (done) => {
-//   let bad = new PostbackButton({title: 'WebUrl', url: 'https://google.com', subtitle: ''}, 1, 23, 3)
-//   let good = new PostbackButton({title: 'WebUrl', url: 'https://google.com', subtitle: ''}, 1, 23, 3)
-//   done()
-// })
 })
 
-describe('Compoenent Tests', () => {
+describe('Component Tests', () => {
+
   it('GenericTemplate Component Test', (done) => {
 
     let element = new Element({
@@ -134,17 +124,91 @@ describe('Compoenent Tests', () => {
       subtitle: faker.lorem.word()
     })
     element.addButton(new UrlButton({
-      title: '',
+      title: faker.lorem.word(),
+      url: 'http://google.com'
+    }))
+    element.addButton(new UrlButton({
+      title: faker.lorem.word(),
+      url: 'http://google.com'
+    }))
+    element.addButton(new UrlButton({
+      title: 'Hi',
       url: 'http://google.com'
     }))
 
-    // let goodResults = element.isValid()
+    let genericTemplate = new GenericTemplate({}, element, element, element, element)
+    genericTemplate.addElements(element)
 
-    let genericTemplate = new GenericTemplate({})
-
-    genericTemplate.addElement(element)
-
+    let goodResults = genericTemplate.isValid()
+    should.exist(goodResults)
+    should.not.exist(goodResults.errors)
+    should.equal(goodResults.isValid, true)
+    let o = genericTemplate.toObject()
+    console.log(o)
     done()
   })
 
+  // it('ButtonTemplate Component Test', (done) => {
+  //
+  //   let element = new Element({
+  //     title: faker.lorem.word(),
+  //     image_url: faker.image.business(),
+  //     subtitle: faker.lorem.word()
+  //   })
+  //   element.addButtons(new UrlButton({
+  //     title: faker.lorem.word(),
+  //     url: 'http://google.com'
+  //   }))
+  //   element.addButtons(new UrlButton({
+  //     title: faker.lorem.word(),
+  //     url: 'http://google.com'
+  //   }))
+  //   element.addButtons(new UrlButton({
+  //     title: 'Hi',
+  //     url: 'http://google.com'
+  //   }))
+  //
+  //   let genericTemplate = new ButtonTemplate({text: faker.hacker.phrase()}, element, element, element, element)
+  //   genericTemplate.addElements(element)
+  //
+  //   let goodResults = genericTemplate.isValid()
+  //   should.exist(goodResults)
+  //   should.not.exist(goodResults.errors)
+  //   should.equal(goodResults.isValid, true)
+  //   let o = genericTemplate.toObject()
+  //   console.log(o)
+  //   done()
+  // })
+  //
+  // it('ListTemplate Component Test', (done) => {
+  //
+  //   let element = new Element({
+  //     title: faker.lorem.word(),
+  //     image_url: faker.image.business(),
+  //     subtitle: faker.lorem.word()
+  //   })
+  //   element.addButtons(new UrlButton({
+  //     title: faker.lorem.word(),
+  //     url: 'http://google.com'
+  //   }))
+  //   element.addButtons(new UrlButton({
+  //     title: faker.lorem.word(),
+  //     url: 'http://google.com'
+  //   }))
+  //   element.addButtons(new UrlButton({
+  //     title: 'Hi',
+  //     url: 'http://google.com'
+  //   }))
+  //
+  //   let genericTemplate = new GenericTemplate({}, element, element, element, element)
+  //   genericTemplate.addElements(element)
+  //
+  //   let goodResults = genericTemplate.isValid()
+  //   should.exist(goodResults)
+  //   should.not.exist(goodResults.errors)
+  //   should.equal(goodResults.isValid, true)
+  //   let o = genericTemplate.toObject()
+  //   console.log(o)
+  //   done()
+  // })
 })
