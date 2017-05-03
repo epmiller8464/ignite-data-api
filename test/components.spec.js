@@ -15,8 +15,7 @@ describe('Button Tests', () => {
 
   it('DefaultAction Validation Test', (done) => {
     let bad = new DefaultAction({
-      title: 'Default Action',
-      url: 'http://google.com',
+      title: '',
       subtitle: ''
     }, 'btn 1', 'btn 2', 'btn 3', 'btn 4')
 
@@ -98,7 +97,10 @@ describe('Button Tests', () => {
       subtitle: faker.lorem.word()
     }, new PostbackButton({
       title: 'Url'
-    }, faker.random.uuid(), faker.random.uuid()), new UrlButton({title: 'View Me', url: 'https://google.com'}))
+    }, faker.random.uuid(), faker.random.uuid()), new UrlButton({
+      title: 'View Me',
+      url: 'https://google.com'
+    }), new UrlButton({title: 'View Me', url: 'https://google.com'}))
 
     let badResult = bad.isValid()
     should.exist(badResult)
@@ -148,67 +150,56 @@ describe('Component Tests', () => {
     done()
   })
 
-  // it('ButtonTemplate Component Test', (done) => {
-  //
-  //   let element = new Element({
-  //     title: faker.lorem.word(),
-  //     image_url: faker.image.business(),
-  //     subtitle: faker.lorem.word()
-  //   })
-  //   element.addButtons(new UrlButton({
-  //     title: faker.lorem.word(),
-  //     url: 'http://google.com'
-  //   }))
-  //   element.addButtons(new UrlButton({
-  //     title: faker.lorem.word(),
-  //     url: 'http://google.com'
-  //   }))
-  //   element.addButtons(new UrlButton({
-  //     title: 'Hi',
-  //     url: 'http://google.com'
-  //   }))
-  //
-  //   let genericTemplate = new ButtonTemplate({text: faker.hacker.phrase()}, element, element, element, element)
-  //   genericTemplate.addElements(element)
-  //
-  //   let goodResults = genericTemplate.isValid()
-  //   should.exist(goodResults)
-  //   should.not.exist(goodResults.errors)
-  //   should.equal(goodResults.isValid, true)
-  //   let o = genericTemplate.toObject()
-  //   console.log(o)
-  //   done()
-  // })
-  //
-  // it('ListTemplate Component Test', (done) => {
-  //
-  //   let element = new Element({
-  //     title: faker.lorem.word(),
-  //     image_url: faker.image.business(),
-  //     subtitle: faker.lorem.word()
-  //   })
-  //   element.addButtons(new UrlButton({
-  //     title: faker.lorem.word(),
-  //     url: 'http://google.com'
-  //   }))
-  //   element.addButtons(new UrlButton({
-  //     title: faker.lorem.word(),
-  //     url: 'http://google.com'
-  //   }))
-  //   element.addButtons(new UrlButton({
-  //     title: 'Hi',
-  //     url: 'http://google.com'
-  //   }))
-  //
-  //   let genericTemplate = new GenericTemplate({}, element, element, element, element)
-  //   genericTemplate.addElements(element)
-  //
-  //   let goodResults = genericTemplate.isValid()
-  //   should.exist(goodResults)
-  //   should.not.exist(goodResults.errors)
-  //   should.equal(goodResults.isValid, true)
-  //   let o = genericTemplate.toObject()
-  //   console.log(o)
-  //   done()
-  // })
+  it('ButtonTemplate Component Test', (done) => {
+
+    let btn1 = new UrlButton({
+      title: faker.lorem.word(),
+      url: 'http://google.com'
+    })
+    let btn2 = new UrlButton({
+      title: faker.lorem.word(),
+      url: 'http://google.com'
+    })
+    let buttonTemplate = new ButtonTemplate({text: faker.hacker.phrase()}, btn1, btn2)
+    buttonTemplate.addButtons(btn1, btn2, btn2, btn2)
+    let goodResults = buttonTemplate.isValid()
+    should.exist(goodResults)
+    should.not.exist(goodResults.errors)
+    should.equal(goodResults.isValid, true)
+    let o = buttonTemplate.toObject()
+    console.log(o)
+    done()
+  })
+
+  it('ListTemplate Component Test', (done) => {
+
+    let element = new Element({
+      title: faker.lorem.word(),
+      image_url: faker.image.business(),
+      subtitle: faker.lorem.word()
+    })
+    element.addButtons(new UrlButton({
+      title: faker.lorem.word(),
+      url: 'http://google.com'
+    }))
+    element.addButtons(new UrlButton({
+      title: faker.lorem.word(),
+      url: 'http://google.com'
+    }))
+    element.addButtons(new UrlButton({
+      title: 'Hi',
+      url: 'http://google.com'
+    }))
+
+    let listTemplate = new ListTemplate({})
+    listTemplate.addElements(...[element, element, element, element, element, element, element, element])
+
+    let goodResults = listTemplate.isValid()
+    should.exist(goodResults)
+    should.not.exist(goodResults.errors)
+    should.equal(goodResults.isValid, true)
+    let o = listTemplate.toObject()
+    console.log(o)
+    done()
+  })
 })
